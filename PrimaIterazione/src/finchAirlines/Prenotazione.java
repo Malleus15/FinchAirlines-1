@@ -2,13 +2,13 @@ package finchAirlines;
 
 public class Prenotazione {
 
-	private String numeroPrenotazione;
+	private int numeroPrenotazione;
 	private double totale = 0;
 	private Cliente cliente;
 	private VoloPrenotato[] listaVoli;
 	
 
-	public Prenotazione(String numeroPrenotazione, double totale, Cliente cliente, VoloPrenotato[] listaVoli) {
+	public Prenotazione(int numeroPrenotazione, double totale, Cliente cliente, VoloPrenotato[] listaVoli) {
 		this.numeroPrenotazione = numeroPrenotazione;
 		this.totale = totale;
 		this.cliente = cliente;
@@ -18,14 +18,14 @@ public class Prenotazione {
 	
 
 
-	public String getNumeroPrenotazione() {
+	public int getNumeroPrenotazione() {
 		return numeroPrenotazione;
 	}
 
 
 
 
-	public void setNumeroPrenotazione(String numeroPrenotazione) {
+	public void setNumeroPrenotazione(int numeroPrenotazione) {
 		this.numeroPrenotazione = numeroPrenotazione;
 	}
 
