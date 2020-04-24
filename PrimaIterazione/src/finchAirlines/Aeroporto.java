@@ -1,5 +1,5 @@
 package finchAirlines;
-/*Commento di prova*/
+/*Commento di prov a*/
 public class Aeroporto {
 
 	private String nome;
