@@ -81,7 +81,7 @@ public class Cliente {
 
 
 	public boolean verificaPassword(String password) {
-		if(password == this.password)
+		if(password.equals(this.password))
 			return true;
 		else
 			return false;

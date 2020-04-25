@@ -82,7 +82,7 @@ public class Prenotazione {
 
 
 	public void inviaEmail(Cliente cliente) {
-
+		System.out.println("***************Email inviata a: "+cliente.getEmail()+" *****************");
 	}
 
 }

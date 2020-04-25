@@ -64,7 +64,7 @@ public class FinchAirlines {
 
 	public boolean autenticaCliente(String email, String password) {
 		for(Cliente cliente: listaClienti)
-			if(cliente.getEmail() == email)
+			if(cliente.getEmail().equalsIgnoreCase(email))
 				return cliente.verificaPassword(password);
 		return false;
 	}
@@ -80,8 +80,8 @@ public class FinchAirlines {
 				if(volo.getOraPartenza().equals(date.get(i)))
 						dateVoli.add(volo);
 			for(Volo volo: dateVoli)
-				if(volo.getDescrizioneVolo().getAeroporti()[0].getCodice() == partenza.get(i)&&
-						volo.getDescrizioneVolo().getAeroporti()[1].getCodice() == destinazione.get(i))
+				if(volo.getDescrizioneVolo().getAeroporti()[0].getCodice().equals(partenza.get(i))&&
+						volo.getDescrizioneVolo().getAeroporti()[1].getCodice().equals(destinazione.get(i)))
 					tratteVoli.add(volo);
 			voliTrovati.add(i, tratteVoli);		//cosa aggiunge nelle posizioni corrispondenti a tratte senza voli trovati?
 					
@@ -93,6 +93,7 @@ public class FinchAirlines {
 		int numeroPrenotazione = listaPrenotazioni.get(listaPrenotazioni.size() - 1).getNumeroPrenotazione();
 		/*Calcolare il totale dalla listavoli mediante il prezzo del volo (descrizioneVolo, vedere quando casuale e quando acquistato), il bagaglio e il posto*/
 		Prenotazione prenotazione = new Prenotazione(numeroPrenotazione++, cliente, listaVoli);
+		prenotazione.inviaEmail(cliente);
 		listaPrenotazioni.add(prenotazione);
 	}
 

@@ -5,9 +5,6 @@ public class Posto {
 	private String numero;
 	private String tipo;
 
-	public Posto(String numero) {
-		this.numero = numero;
-	}
 
 	public String getNumero() {
 		return numero;
@@ -26,6 +23,19 @@ public class Posto {
 			return 10;
 		else
 			return 0;		
+	}
+
+	public Posto(String numero, String tipo) {
+		this.numero = numero;
+		this.tipo = tipo;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	
