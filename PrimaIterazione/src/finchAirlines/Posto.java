@@ -3,6 +3,7 @@ package finchAirlines;
 public class Posto {
 
 	private String numero;
+	private String tipo;
 
 	public Posto(String numero) {
 		this.numero = numero;
@@ -16,7 +17,16 @@ public class Posto {
 		this.numero = numero;
 	}
 	
-	
+	public double calcolaPrezzo() {
+		if(tipo.equalsIgnoreCase("base"))
+			return 1;
+		else if(tipo.equalsIgnoreCase("premium"))
+			return 4;
+		else if(tipo.equalsIgnoreCase("optimum"))
+			return 10;
+		else
+			return 0;		
+	}
 	
 	
 

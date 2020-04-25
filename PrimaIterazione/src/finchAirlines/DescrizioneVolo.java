@@ -2,21 +2,21 @@ package finchAirlines;
 
 public class DescrizioneVolo {
 
-	private int codice;
+	private String codice;
 	private double prezzo;
 	private Aeroporto[] aeroporti;
 	
-	public DescrizioneVolo(int codice, double prezzo, Aeroporto[] aeroporti) {
+	public DescrizioneVolo(String codice, double prezzo, Aeroporto[] aeroporti) {
 		this.codice = codice;
 		this.prezzo = prezzo;
 		this.aeroporti = aeroporti;
 	}
 
-	public int getCodice() {
+	public String getCodice() {
 		return codice;
 	}
 
-	public void setCodice(int codice) {
+	public void setCodice(String codice) {
 		this.codice = codice;
 	}
 

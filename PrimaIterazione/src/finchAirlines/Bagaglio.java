@@ -16,6 +16,17 @@ public class Bagaglio {
 		this.tipo = tipo;
 	}
 	
+	public double calcolaPrezzo() {
+		if(tipo.equalsIgnoreCase("mano"))
+			return 2.50;
+		else if(tipo.equalsIgnoreCase("10kg"))
+			return 5;
+		else if(tipo.equalsIgnoreCase("20kg"))
+			return 15;
+		else
+			return 0;		
+	}
+	
 	
 	
 	

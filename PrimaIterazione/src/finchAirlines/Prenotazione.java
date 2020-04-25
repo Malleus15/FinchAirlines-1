@@ -8,14 +8,21 @@ public class Prenotazione {
 	private VoloPrenotato[] listaVoli;
 	
 
-	public Prenotazione(int numeroPrenotazione, double totale, Cliente cliente, VoloPrenotato[] listaVoli) {
+	public Prenotazione(int numeroPrenotazione, Cliente cliente, VoloPrenotato[] listaVoli) {
 		this.numeroPrenotazione = numeroPrenotazione;
-		this.totale = totale;
 		this.cliente = cliente;
 		this.listaVoli = listaVoli;
+		calcolaTotaleVoli();
 	}
 
 	
+	public void calcolaTotaleVoli() {
+		for(int i=0; i < listaVoli.length; i++) {
+			totale += listaVoli[i].getVolo().getDescrizioneVolo().getPrezzo();
+			totale += listaVoli[i].getBagaglio().calcolaPrezzo();
+			totale += listaVoli[i].getPosto().calcolaPrezzo();
+		}
+	}
 
 
 	public int getNumeroPrenotazione() {
