@@ -1,5 +1,6 @@
 package finchAirlines;
-
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 
@@ -16,52 +17,45 @@ public class GUIT {
 		
 		/*Riempimento listaVoli di FinchAirlines*/
 		ArrayList<Volo> listaVoliDisponibili = new ArrayList<Volo>();
+		
 		Aeroporto aeroporto1 = new Aeroporto("Aeroporto Internazionale di Catania Vincenzo Bellini", "Catania", "CTA");
 		Aeroporto aeroporto2 = new Aeroporto("Aeroporto Intercontinentale di Roma Leonardo da Vinci", "Roma", "FCO");
 		Aeroporto aeroporto3 = new Aeroporto("Aeroporto Intercontinetale di Milano Malpensa", "Milano", "MXP");
 		Aeroporto aeroporto4 = new Aeroporto("Aeroporto Internazione di Verona", "Verona", "VRN");
-		Aeroporto[] aeroporti = new Aeroporto[2];
 		
-		aeroporti[0] = aeroporto1;
-		aeroporti[1] = aeroporto2;
-		Volo volo1 = new Volo(new Date(2020, 2, 15, 17, 00), new Date(2020, 2, 15, 18, 15), new DescrizioneVolo("FA0001", 30, aeroporti));
+		Volo volo1 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 19, 00), LocalDateTime.of(2020, Month.MARCH, 15, 20, 00), new DescrizioneVolo("FA0001", 30, aeroporto1, aeroporto2));
 		listaVoliDisponibili.add(volo1);
 		
-		Volo volo2 = new Volo(new Date(2020, 2, 15, 20, 00), new Date(2020, 2, 15, 21, 15), new DescrizioneVolo("FA0002", 15, aeroporti));
+		Volo volo2 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 15, 00), LocalDateTime.of(2020, Month.MARCH, 15, 16, 00), new DescrizioneVolo("FA0002", 15, aeroporto1, aeroporto2));
 		listaVoliDisponibili.add(volo2);
 		
-		Volo volo3 = new Volo(new Date(2020, 2, 15, 19, 00), new Date(2020, 2, 15, 20, 15), new DescrizioneVolo("FA0003", 45, aeroporti));
-		listaVoliDisponibili.add(volo3);
-				
-		aeroporti[0] = aeroporto2;
-		aeroporti[1] = aeroporto3;
-		Volo volo4 = new Volo(new Date(2020, 2, 22, 20, 00), new Date(2020, 2, 22, 20, 50), new DescrizioneVolo("FA0011", 15, aeroporti));
+		Volo volo3 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 12, 00), LocalDateTime.of(2020, Month.MARCH, 15, 13, 00), new DescrizioneVolo("FA0003", 45, aeroporto1, aeroporto2));
+		listaVoliDisponibili.add(volo3);		
+
+		Volo volo4 = new Volo(LocalDateTime.of(2020, Month.MARCH, 22, 15, 00), LocalDateTime.of(2020, Month.MARCH, 22, 16, 00), new DescrizioneVolo("FA0011", 15, aeroporto2, aeroporto3));
 		listaVoliDisponibili.add(volo4);
 		
-		Volo volo5 = new Volo(new Date(2020, 2, 22, 13, 30), new Date(2020, 2, 22, 14, 20), new DescrizioneVolo("FA0012", 50, aeroporti));
+		Volo volo5 = new Volo(LocalDateTime.of(2020, Month.MARCH, 22, 11, 00), LocalDateTime.of(2020, Month.MARCH, 22, 12, 00), new DescrizioneVolo("FA0012", 50, aeroporto2, aeroporto3));
 		listaVoliDisponibili.add(volo5);
 		
-		Volo volo6 = new Volo(new Date(2020, 2, 22, 20, 00), new Date(2020, 2, 22, 20, 50), new DescrizioneVolo("FA0013", 15, aeroporti));
+		Volo volo6 = new Volo(LocalDateTime.of(2020, Month.MARCH, 22, 18, 00), LocalDateTime.of(2020, Month.MARCH, 22, 19, 00), new DescrizioneVolo("FA0013", 15, aeroporto2, aeroporto3));
 		listaVoliDisponibili.add(volo6);
 		
-		Volo volo7 = new Volo(new Date(2020, 2, 15, 13, 30), new Date(2020, 2, 15, 14, 20), new DescrizioneVolo("FA0014", 40, aeroporti));
+		Volo volo7 = new Volo(LocalDateTime.of(2020, Month.MARCH, 22, 21, 00), LocalDateTime.of(2020, Month.MARCH, 22, 22, 00), new DescrizioneVolo("FA0014", 40, aeroporto2, aeroporto3));
 		listaVoliDisponibili.add(volo7);
-		
-		aeroporti[0] = aeroporto2;
-		aeroporti[1] = aeroporto4;
-		Volo volo8 = new Volo(new Date(2020, 2, 15, 17, 00), new Date(2020, 2, 15, 18, 15), new DescrizioneVolo("FA1001", 30, aeroporti));
+
+		Volo volo8 = new Volo(LocalDateTime.of(2020, Month.MARCH, 21, 11, 00), LocalDateTime.of(2020, Month.MARCH, 21, 10, 00), new DescrizioneVolo("FA1001", 30, aeroporto3, aeroporto4));
 		listaVoliDisponibili.add(volo8);
 		
-		Volo volo9 = new Volo(new Date(2020, 2, 22, 20, 00), new Date(2020, 2, 22, 20, 50), new DescrizioneVolo("FA1002", 15, aeroporti));
+		Volo volo9 = new Volo(LocalDateTime.of(2020, Month.MARCH, 22, 10, 00), LocalDateTime.of(2020, Month.MARCH, 22, 11, 00), new DescrizioneVolo("FA1002", 15, aeroporto3, aeroporto4));
 		listaVoliDisponibili.add(volo9);
 		
-		aeroporti[0] = aeroporto3;
-		aeroporti[1] = aeroporto1;
-		Volo volo10 = new Volo(new Date(2020, 2, 29, 21, 00), new Date(2020, 2, 29, 23, 15), new DescrizioneVolo("FA0101", 30, aeroporti));
+		Volo volo10 = new Volo(LocalDateTime.of(2020, Month.MARCH, 29, 15, 00), LocalDateTime.of(2020, Month.MARCH, 29, 16, 00), new DescrizioneVolo("FA0101", 30, aeroporto3, aeroporto1));
 		listaVoliDisponibili.add(volo10);
 		
-		Volo volo11 = new Volo(new Date(2020, 2, 29, 19, 00), new Date(2020, 2, 29, 21, 15), new DescrizioneVolo("FA0102", 35, aeroporti));
+		Volo volo11 = new Volo(LocalDateTime.of(2020, Month.MARCH, 29, 18, 00), LocalDateTime.of(2020, Month.MARCH, 29, 19, 00), new DescrizioneVolo("FA0102", 35, aeroporto3, aeroporto1));
 		listaVoliDisponibili.add(volo11);
+		
 		
 		finchAirlines.setListaVoli(listaVoliDisponibili);
 		
@@ -70,7 +64,7 @@ public class GUIT {
 		/*variabili temporanee per la ricerca*/	
 		ArrayList<String> partenza = new ArrayList<String>();
 		ArrayList<String> destinazione = new ArrayList<String>();
-		ArrayList<Date> date = new ArrayList<Date>();
+		ArrayList<LocalDateTime> date = new ArrayList<LocalDateTime>();
 		int tipo_viaggio;
 		
 		/*Dati di ricerca*/
@@ -81,9 +75,9 @@ public class GUIT {
 		destinazione.add("MXP");
 		destinazione.add("CTA");
 		tipo_viaggio = 3;		
-		date.add(new Date(2020, 2, 15));
-		date.add(new Date(2020, 2, 22));
-		date.add(new Date(2020, 2, 29));
+		date.add(LocalDateTime.of(2020, Month.MARCH, 15, 15, 00));
+		date.add(LocalDateTime.of(2020, Month.MARCH, 22, 15, 00));
+		date.add(LocalDateTime.of(2020, Month.MARCH, 29, 15, 00));
 		
 		VoloPrenotato[] listaVoli = new VoloPrenotato[tipo_viaggio];	
 		
@@ -128,9 +122,9 @@ public class GUIT {
 				System.out.println((j+1)+". "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
 			System.out.print("Seleziona il volo: ");
 			int voloScelto = scan.nextInt();
-			listaVoli[i].setVolo(voliTrovati.get(i).get(voloScelto - 1)); 			
+			listaVoli[i] = new VoloPrenotato(voliTrovati.get(i).get(voloScelto - 1)); 			
 		}
-		
+		scan.nextLine();
 		
 		for(int i = 0; i < tipo_viaggio; i++) {
 			//messaggio: seleziona i servizi per il volo i-esimo
@@ -152,7 +146,7 @@ public class GUIT {
 		}
 		
 		for(Cliente cliente: finchAirlines.getListaClienti())
-			if(cliente.getEmail() == email) {
+			if(cliente.getEmail().equalsIgnoreCase(email)) {
 				finchAirlines.creaPrenotazione(cliente, listaVoli);
 				break;
 			}

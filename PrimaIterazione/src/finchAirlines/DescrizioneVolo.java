@@ -4,12 +4,13 @@ public class DescrizioneVolo {
 
 	private String codice;
 	private double prezzo;
-	private Aeroporto[] aeroporti;
+	private Aeroporto[] aeroporti = new Aeroporto[2];
 	
-	public DescrizioneVolo(String codice, double prezzo, Aeroporto[] aeroporti) {
+	public DescrizioneVolo(String codice, double prezzo, Aeroporto aeroporto1, Aeroporto aeroporto2) {
 		this.codice = codice;
 		this.prezzo = prezzo;
-		this.aeroporti = aeroporti;
+		this.aeroporti[0]=aeroporto1;
+		this.aeroporti[1]=aeroporto2;
 	}
 
 	public String getCodice() {

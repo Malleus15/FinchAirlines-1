@@ -1,32 +1,32 @@
 package finchAirlines;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Volo {
 
-	private Date oraPartenza;
-	private Date oraArrivo;
+	private LocalDateTime oraPartenza;
+	private LocalDateTime oraArrivo;
 	private DescrizioneVolo descrizioneVolo;
 	
-	public Volo(Date oraPartenza, Date oraArrivo, DescrizioneVolo descrizioneVolo) {
+	public Volo(LocalDateTime oraPartenza, LocalDateTime oraArrivo, DescrizioneVolo descrizioneVolo) {
 		this.oraPartenza = oraPartenza;
 		this.oraArrivo = oraArrivo;
 		this.descrizioneVolo = descrizioneVolo;
 	}
 
-	public Date getOraPartenza() {
+	public LocalDateTime getOraPartenza() {
 		return oraPartenza;
 	}
 
-	public void setOraPartenza(Date oraPartenza) {
+	public void setOraPartenza(LocalDateTime oraPartenza) {
 		this.oraPartenza = oraPartenza;
 	}
 
-	public Date getOraArrivo() {
+	public LocalDateTime getOraArrivo() {
 		return oraArrivo;
 	}
 
-	public void setOraArrivo(Date oraArrivo) {
+	public void setOraArrivo(LocalDateTime oraArrivo) {
 		this.oraArrivo = oraArrivo;
 	}
 

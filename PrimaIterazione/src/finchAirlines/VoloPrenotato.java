@@ -11,6 +11,10 @@ public class VoloPrenotato {
 		this.bagaglio = bagaglio;
 		this.volo = volo;
 	}
+	
+	public VoloPrenotato(Volo volo) {
+		this.volo = volo;
+	}
 
 	public Posto getPosto() {
 		return posto;

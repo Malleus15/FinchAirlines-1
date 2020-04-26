@@ -1,7 +1,7 @@
 package finchAirlines;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class FinchAirlines {
@@ -69,7 +69,7 @@ public class FinchAirlines {
 		return false;
 	}
 
-	public ArrayList<ArrayList<Volo>> ricercaVolo(ArrayList<String> partenza, ArrayList<String> destinazione, int tipo_viaggio, ArrayList<Date> date) {
+	public ArrayList<ArrayList<Volo>> ricercaVolo(ArrayList<String> partenza, ArrayList<String> destinazione, int tipo_viaggio, ArrayList<LocalDateTime> date) {
 		
 		ArrayList<ArrayList<Volo>> voliTrovati = new ArrayList<ArrayList<Volo>>(tipo_viaggio);
 		
@@ -77,7 +77,7 @@ public class FinchAirlines {
 			ArrayList<Volo> dateVoli = new ArrayList<Volo>();
 			ArrayList<Volo> tratteVoli = new ArrayList<Volo>();
 			for(Volo volo: this.listaVoli)
-				if(volo.getOraPartenza().equals(date.get(i)))
+				if((volo.getOraPartenza().getDayOfMonth() == date.get(i).getDayOfMonth()) && (volo.getOraPartenza().getMonth() == date.get(i).getMonth()) && (volo.getOraPartenza().getYear() == date.get(i).getYear()))
 						dateVoli.add(volo);
 			for(Volo volo: dateVoli)
 				if(volo.getDescrizioneVolo().getAeroporti()[0].getCodice().equals(partenza.get(i))&&
@@ -90,7 +90,9 @@ public class FinchAirlines {
 	}
 
 	public void creaPrenotazione(Cliente cliente, VoloPrenotato[] listaVoli) {
-		int numeroPrenotazione = listaPrenotazioni.get(listaPrenotazioni.size() - 1).getNumeroPrenotazione();
+		int numeroPrenotazione = 0;
+		if (listaPrenotazioni.size()>0) 
+			numeroPrenotazione = listaPrenotazioni.get(listaPrenotazioni.size()-1).getNumeroPrenotazione();
 		/*Calcolare il totale dalla listavoli mediante il prezzo del volo (descrizioneVolo, vedere quando casuale e quando acquistato), il bagaglio e il posto*/
 		Prenotazione prenotazione = new Prenotazione(numeroPrenotazione++, cliente, listaVoli);
 		prenotazione.inviaEmail(cliente);
