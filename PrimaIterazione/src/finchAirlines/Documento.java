@@ -1,18 +1,18 @@
 package finchAirlines;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Documento {
 
 	private String id;
-	private Date dataRilascio;
-	private Date dataScadenza;
+	private LocalDateTime dataRilascio;
+	private LocalDateTime dataScadenza;
 	private String tipo;
 	
-	public Documento(String id, Date dataRilascio, Date dataScadenza, String tipo) {
+	public Documento(String id, LocalDateTime localDateTime, LocalDateTime localDateTime2, String tipo) {
 		this.id = id;
-		this.dataRilascio = dataRilascio;
-		this.dataScadenza = dataScadenza;
+		this.dataRilascio = localDateTime;
+		this.dataScadenza = localDateTime2;
 		this.tipo = tipo;
 	}
 
@@ -24,19 +24,19 @@ public class Documento {
 		this.id = id;
 	}
 
-	public Date getDataRilascio() {
+	public LocalDateTime getDataRilascio() {
 		return dataRilascio;
 	}
 
-	public void setDataRilascio(Date dataRilascio) {
+	public void setDataRilascio(LocalDateTime dataRilascio) {
 		this.dataRilascio = dataRilascio;
 	}
 
-	public Date getDataScadenza() {
+	public LocalDateTime getDataScadenza() {
 		return dataScadenza;
 	}
 
-	public void setDataScadenza(Date dataScadenza) {
+	public void setDataScadenza(LocalDateTime dataScadenza) {
 		this.dataScadenza = dataScadenza;
 	}
 

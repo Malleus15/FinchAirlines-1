@@ -18,9 +18,15 @@ public class Prenotazione {
 	
 	public void calcolaTotaleVoli() {
 		for(int i=0; i < listaVoli.length; i++) {
-			totale += listaVoli[i].getVolo().getDescrizioneVolo().getPrezzo();
-			totale += listaVoli[i].getBagaglio().calcolaPrezzo();
-			totale += listaVoli[i].getPosto().calcolaPrezzo();
+			double prezzoVolo = listaVoli[i].getVolo().getDescrizioneVolo().getPrezzo();
+			double prezzoBagaglio = listaVoli[i].getBagaglio().calcolaPrezzo();
+			double prezzoPosto = listaVoli[i].getPosto().calcolaPrezzo();
+			if(prezzoVolo > 0)
+				totale += prezzoVolo;
+			if(prezzoBagaglio > 0)
+				totale += prezzoBagaglio;
+			if(prezzoPosto > 0)
+				totale += prezzoPosto;
 		}
 	}
 
