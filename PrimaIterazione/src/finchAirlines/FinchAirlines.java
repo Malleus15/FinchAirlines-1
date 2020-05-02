@@ -91,7 +91,7 @@ public class FinchAirlines {
 
 	public void creaPrenotazione(Cliente cliente, VoloPrenotato[] listaVoli) {
 		int numeroPrenotazione = 0;
-		if (listaPrenotazioni.size()>0) 
+		if (listaPrenotazioni.size() > 0) 
 			numeroPrenotazione = listaPrenotazioni.get(listaPrenotazioni.size()-1).getNumeroPrenotazione();
 		/*Calcolare il totale dalla listavoli mediante il prezzo del volo (descrizioneVolo, vedere quando casuale e quando acquistato), il bagaglio e il posto*/
 		Prenotazione prenotazione = new Prenotazione(numeroPrenotazione++, cliente, listaVoli);
