@@ -6,13 +6,12 @@ import java.util.*;
 
 
 public class GUIT {
-	@SuppressWarnings("deprecation")
 	public static void main(String[]args) {
 		FinchAirlines finchAirlines = new FinchAirlines();		
 		
 		/*Riempimento listaClienti di FinchAirlines*/
 		ArrayList<Cliente> listaClienti = new ArrayList<Cliente>();
-		listaClienti.add(new Cliente("Mario", "Rossi","prova@prova.it", "3333333333", "password", new Documento("12345", new Date(2010, 5, 30), new Date(2023, 9, 21), "CI")));
+		listaClienti.add(new Cliente("Mario", "Rossi","prova@prova.it", "3333333333", "password", new Documento("12345", LocalDateTime.of(2010, Month.MAY, 30, 0, 00), LocalDateTime.of(2023, Month.SEPTEMBER, 21, 0, 00), "CI")));
 		finchAirlines.setListaClienti(listaClienti);
 		
 		/*Riempimento listaVoli di FinchAirlines*/
