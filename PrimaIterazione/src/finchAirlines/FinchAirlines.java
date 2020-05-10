@@ -63,10 +63,9 @@ public class FinchAirlines {
 
 
 	public boolean autenticaCliente(String email, String password) {
-		for(Cliente cliente: listaClienti)
-			if(cliente.getEmail().equalsIgnoreCase(email))
-				return cliente.verificaPassword(password);
-		return false;
+		Cliente cliente = ricercaCliente(email);
+		return cliente.verificaPassword(password);
+		
 	}
 
 	public ArrayList<ArrayList<Volo>> ricercaVolo(ArrayList<String> partenza, ArrayList<String> destinazione, int tipo_viaggio, ArrayList<LocalDateTime> date) {
@@ -89,7 +88,7 @@ public class FinchAirlines {
 		return voliTrovati;
 	}
 
-	public void creaPrenotazione(Cliente cliente, VoloPrenotato[] listaVoli) {
+	public void confermaPrenotazione(Cliente cliente, VoloPrenotato[] listaVoli) {
 		int numeroPrenotazione = 0;
 		if (listaPrenotazioni.size() > 0) 
 			numeroPrenotazione = listaPrenotazioni.get(listaPrenotazioni.size()-1).getNumeroPrenotazione();
@@ -97,6 +96,13 @@ public class FinchAirlines {
 		Prenotazione prenotazione = new Prenotazione(numeroPrenotazione++, cliente, listaVoli);
 		prenotazione.inviaEmail(cliente);
 		listaPrenotazioni.add(prenotazione);
+	}
+	
+	public Cliente ricercaCliente(String email) {
+		for(Cliente cliente: listaClienti)
+			if(cliente.getEmail().equalsIgnoreCase(email))
+				return cliente;
+		return null;
 	}
 
 }

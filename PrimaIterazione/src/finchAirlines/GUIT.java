@@ -78,7 +78,7 @@ public class GUIT {
 		date.add(LocalDateTime.of(2020, Month.MARCH, 22, 15, 00));
 		date.add(LocalDateTime.of(2020, Month.MARCH, 29, 15, 00));
 		
-		VoloPrenotato[] listaVoli = new VoloPrenotato[tipo_viaggio];	
+		GestisciPrenotazioneHandler gestisciPrenotazione = new GestisciPrenotazioneHandler(tipo_viaggio);
 		
 													
 		
@@ -121,7 +121,8 @@ public class GUIT {
 				System.out.println((j+1)+". "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
 			System.out.print("Seleziona il volo: ");
 			int voloScelto = scan.nextInt();
-			listaVoli[i] = new VoloPrenotato(voliTrovati.get(i).get(voloScelto - 1)); 			
+			gestisciPrenotazione.selezionaVoli(voliTrovati.get(i).get(voloScelto - 1), i);
+					
 		}
 		scan.nextLine();
 		
@@ -133,7 +134,8 @@ public class GUIT {
 			String numeroPosto = scan.nextLine();
 			System.out.print("Inserisci tipo: ");
 			String tipoPosto = scan.nextLine();
-			listaVoli[i].setPosto(new Posto(numeroPosto, tipoPosto));
+			gestisciPrenotazione.selezionaPosto(numeroPosto, tipoPosto, i);
+			
 		}
 		
 		for(int i = 0; i < tipo_viaggio; i++) {
@@ -141,14 +143,11 @@ public class GUIT {
 			System.out.print("Seleziona il bagaglio per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
 			String bagaglioScelto = scan.nextLine();
 			//bagaglioScelto -> variabile per il posto scelto per la tratta i-esima
-			listaVoli[i].setBagaglio(new Bagaglio(bagaglioScelto));
+			gestisciPrenotazione.selezionaBagaglio(bagaglioScelto, i);
 		}
 		
-		for(Cliente cliente: finchAirlines.getListaClienti())
-			if(cliente.getEmail().equalsIgnoreCase(email)) {
-				finchAirlines.creaPrenotazione(cliente, listaVoli);
-				break;
-			}
+		finchAirlines.confermaPrenotazione(finchAirlines.ricercaCliente(email), gestisciPrenotazione.getListaVoli());
+		
 		System.out.println("Prenotazione effettuata con successo!");
 		scan.close();
 		
