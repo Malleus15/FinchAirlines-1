@@ -105,7 +105,14 @@ public class FinchAirlines {
 		return null;
 	}
 	
-	
+	public ArrayList<Prenotazione> effettuaCheckin(Cliente cliente){
+		ArrayList<Prenotazione> listaPrenotazioniCliente = new ArrayList<Prenotazione>();
+		
+		for(Prenotazione prenotazione: this.listaPrenotazioni )
+			if(prenotazione.getCliente().equals(cliente))
+				listaPrenotazioniCliente.add(prenotazione);
+		return listaPrenotazioniCliente;
+	}
 	
 
 }
