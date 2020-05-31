@@ -8,6 +8,7 @@ public class Cliente {
 	private String telefono;
 	private String password;
 	private Documento documento;
+	private int punti;
 
 	public Cliente(String nome, String cognome, String email, String telefono, String password, Documento documento) {
 		this.nome = nome;
@@ -16,6 +17,7 @@ public class Cliente {
 		this.telefono = telefono;
 		this.password = password;
 		this.documento = documento;
+		this.punti = 0;
 	}
 	
 	
@@ -77,6 +79,16 @@ public class Cliente {
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
 	}
+	
+	
+	public int getPunti() {
+		return punti;
+	}
+	
+	
+	public void setPunti(int punti) {
+		this.punti = punti;
+	}
 
 
 
@@ -85,6 +97,10 @@ public class Cliente {
 			return true;
 		else
 			return false;
+	}
+	
+	public void decrementaPunti(int puntiSelezionati) {
+		this.punti = this.punti - puntiSelezionati;
 	}
 
 }

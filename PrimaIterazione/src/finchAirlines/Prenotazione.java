@@ -6,12 +6,14 @@ public class Prenotazione {
 	private double totale = 0;
 	private Cliente cliente;
 	private VoloPrenotato[] listaVoli;
+	private boolean pagato;
 	
 
 	public Prenotazione(int numeroPrenotazione, Cliente cliente, VoloPrenotato[] listaVoli) {
 		this.numeroPrenotazione = numeroPrenotazione;
 		this.cliente = cliente;
 		this.listaVoli = listaVoli;
+		this.pagato = false;
 		calcolaTotaleVoli();
 	}
 
@@ -29,6 +31,16 @@ public class Prenotazione {
 				totale += prezzoPosto;
 		}
 	}
+	
+	public void setPagato(boolean pagato) {
+		this.pagato = pagato;
+	}
+	
+	
+	public boolean getPagato() {
+		return this.pagato;
+	}
+	
 
 
 	public int getNumeroPrenotazione() {
