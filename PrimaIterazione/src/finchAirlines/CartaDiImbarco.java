@@ -9,6 +9,7 @@ public class CartaDiImbarco {
 	public CartaDiImbarco(Prenotazione prenotazione, VoloPrenotato voloPrenotato) {
 		this.prenotazione = prenotazione;
 		this.voloPrenotato = voloPrenotato;
+		this.voloPrenotato.setCheckin(true);
 	}
 	
 	

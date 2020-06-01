@@ -7,6 +7,7 @@ public class Prenotazione {
 	private Cliente cliente;
 	private VoloPrenotato[] listaVoli;
 	private boolean pagato;
+	private Pagamento pagamento;
 	
 
 	public Prenotazione(int numeroPrenotazione, Cliente cliente, VoloPrenotato[] listaVoli) {
@@ -101,6 +102,38 @@ public class Prenotazione {
 
 	public void inviaEmail(Cliente cliente) {
 		System.out.println("***************Email inviata a: "+cliente.getEmail()+" *****************");
+	}
+	
+	public VoloPrenotato ricercaVolo(int index) {
+		if (this.listaVoli[index].getVolo().controllaData())
+				return this.listaVoli[index];
+		return null;
+	}
+	
+
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+	
+	public void creaPagamentoPayPal() {
+		this.pagamento = new PagamentoPayPal();
+	}
+	
+	public void creaPagamentoCartaCredito() {
+		this.pagamento = new PagamentoCartaDiCredito();
+		
+	}
+	
+	public boolean effettuaPagamento(double nuovoTotale, String idConto, int puntiSelezionati) {
+		boolean confermaPagamento = this.pagamento.eseguiPagamento(nuovoTotale, idConto);
+		if(confermaPagamento)
+			this.cliente.decrementaPunti(puntiSelezionati);
+		return confermaPagamento;
 	}
 
 }

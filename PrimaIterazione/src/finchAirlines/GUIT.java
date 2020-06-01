@@ -149,8 +149,63 @@ public class GUIT {
 		finchAirlines.confermaPrenotazione(finchAirlines.ricercaCliente(email), gestisciPrenotazione.getListaVoli());
 		
 		System.out.println("Prenotazione effettuata con successo!");
-		scan.close();
+		//scan.close();
 		
+		
+		
+		/*pagamento di una prenotazione tramite paypal.
+		 *Si dovrebbe effettuare il testing anche del pagamento tramite carta di credito ma le funzioni sono identiche*/
+		Prenotazione prenotazione1 = finchAirlines.getListaPrenotazioni().get(0);
+		System.out.println("Pagamento tramite paypal della prenotazione num. " + prenotazione1.getNumeroPrenotazione());
+		finchAirlines.effettuaPagamentoPayPal(prenotazione1);
+		System.out.println("Pagamento di: " + prenotazione1.getTotale());
+		int punti = finchAirlines.selezionaSconto(prenotazione1);
+		System.out.println("Il cliente possiede i seguenti punti: " + punti);
+		int puntiSelezionati = 0;
+		
+		do {
+			System.out.println("Seleziona i punti da utilizare per lo sconto");
+			puntiSelezionati = scan.nextInt();
+			if ((puntiSelezionati > punti) && (puntiSelezionati<0))
+				System.out.println("Selezione non corretta!");
+		}
+		while((puntiSelezionati > punti) && (puntiSelezionati<0));
+		
+		double nuovoTotale = finchAirlines.selezionaPunti(puntiSelezionati, prenotazione1.getTotale());
+		System.out.println("Selezionati " + puntiSelezionati + "punti, nuovo totale: " + nuovoTotale);
+		
+		System.out.println("Inserire email per effettuare il pagamento tramite il conto PayPal:");
+		String emailPayPal = scan.nextLine();
+		
+		if(finchAirlines.pagamentoPayPal(nuovoTotale, prenotazione1, emailPayPal, puntiSelezionati))
+			System.out.println("Pagamento effettuato con successo");
+		else
+			System.out.println("Pagamento non riuscito");
+		
+		//checkin di una prenotazione
+		//precondizione: Login già effettuato
+		System.out.println("Procedura di checkin avviata!");
+		ArrayList<Prenotazione> listaPrenotazioniCliente = finchAirlines.effettuaCheckin(listaClienti.get(0));
+		System.out.println("Prenotazioni del cliente: " + listaClienti.get(0).getNome()+ " "+ listaClienti.get(0).getCognome());
+		for(Prenotazione prenotazione: listaPrenotazioniCliente)
+			System.out.println("Numero prenotazione: "+ prenotazione.getNumeroPrenotazione());
+		System.out.println("Seleziona la prenotazione per cui vuoi effettuare il checkin:");
+		int numeroPrenotazione = scan.nextInt();
+		Prenotazione prenotazioneSelezionata = finchAirlines.selezionaPrenotazione(numeroPrenotazione, listaPrenotazioniCliente);
+		if(prenotazioneSelezionata.equals(null))
+			System.out.println("Prenotazione non trovata!");
+		int i=0;
+		for(VoloPrenotato voloPrenotato: prenotazioneSelezionata.getListaVoli()) {
+			i++;
+			System.out.println("[" + i +"] " + voloPrenotato.getVolo().getDescrizioneVolo().getCodice() + " con partenza in data "+ voloPrenotato.getVolo().getOraPartenza());
+		}
+		System.out.println("Seleziona il volo per cui vuoi effettuare il checkin:");
+		VoloPrenotato voloPrenotato = finchAirlines.selezionaVolo(scan.nextInt() -1, prenotazioneSelezionata);
+		
+		CartaDiImbarco cartaDiImbarco = finchAirlines.confermaInserimento(prenotazioneSelezionata, voloPrenotato);
+		if (cartaDiImbarco.equals(null))
+			System.out.println("Impossibile effettuare il checkin.");
+		//stampare le informazioni di cartaDiImbarco
 	}
 
 }

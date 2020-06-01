@@ -38,7 +38,11 @@ public class Volo {
 		this.descrizioneVolo = descrizioneVolo;
 	}
 	
-	
+	public boolean controllaData() {
+		//creare localdatetime di oggi e confrontarlo con oraPartenza
+		//return true or false
+		
+	}
 	
 	
 

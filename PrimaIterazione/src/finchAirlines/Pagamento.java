@@ -4,7 +4,8 @@ public abstract class Pagamento {
 	
 	private double totale;
 
-
+	public abstract boolean eseguiPagamento(double nuovoTotale, String idConto);
+	
 	public double getTotale() {
 		return this.totale;
 	}

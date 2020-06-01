@@ -114,5 +114,45 @@ public class FinchAirlines {
 		return listaPrenotazioniCliente;
 	}
 	
+	public Prenotazione selezionaPrenotazione(int numeroPrenotazione, ArrayList<Prenotazione> listaPrenotazioniCliente) {
+		for(Prenotazione prenotazione: listaPrenotazioniCliente)
+			if(prenotazione.getNumeroPrenotazione() == numeroPrenotazione)
+				return prenotazione;
+		return null;
+	}
+	
+	public VoloPrenotato selezionaVolo(int index, Prenotazione prenotazione) {
+		return prenotazione.ricercaVolo(index);
+	}
+	
+	public CartaDiImbarco confermaInserimento(Prenotazione prenotazione, VoloPrenotato voloPrenotato) {
+		return new CartaDiImbarco(prenotazione, voloPrenotato);		
+	}
+	
+	public void effettuaPagamentoPayPal(Prenotazione prenotazione) {
+		prenotazione.creaPagamentoPayPal();
+	}
+	
+	public void effettuaPagamentoCartaDiCredito(Prenotazione prenotazione) {
+		prenotazione.creaPagamentoCartaCredito();
+	}
+	
+	public int selezionaSconto(Prenotazione prenotazione) {
+		return prenotazione.getCliente().getPunti();
+	}
+	
+	public double selezionaPunti(int puntiSelezionati, double totale) {
+		double sconto = puntiSelezionati / 100;
+		return (totale-((totale/100)*sconto));
+	}
+	
+	public boolean pagamentoPayPal(double nuovoTotale, Prenotazione prenotazione, String email, int puntiSelezionati) {
+		return prenotazione.effettuaPagamento(nuovoTotale, email, puntiSelezionati);
+	}
+	
+	public boolean pagamentoCartaCredito(double nuovoTotale, Prenotazione prenotazione, String numeroCarta, int puntiSelezionati) {
+		return prenotazione.effettuaPagamento(nuovoTotale, numeroCarta, puntiSelezionati);
+	}
+	
 
 }
