@@ -2,8 +2,8 @@ package finchAirlines;
 
 public class PayPalAdapter {
 
-	public boolean paga(ContoPayPal contoPayPal, double nuovoTotale) {
-		String email = contoPayPal.getEmail();
+	public boolean paga(ContoPayPal conto, double nuovoTotale) {
+		String email = conto.getEmail();
 		System.out.println("Pagamento presso PayPal.com con dati: " + email + " prezzo: " + nuovoTotale);
 		return true;
 		/*simulazione API di PayPal con pagamento effettuato con successo 

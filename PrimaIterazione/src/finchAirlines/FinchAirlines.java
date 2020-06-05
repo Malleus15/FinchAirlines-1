@@ -142,8 +142,7 @@ public class FinchAirlines {
 	}
 	
 	public double selezionaPunti(int puntiSelezionati, double totale) {
-		double sconto = puntiSelezionati / 100;
-		return (totale-((totale/100)*sconto));
+		return calcolaNuovoTotale(puntiSelezionati, totale);
 	}
 	
 	public boolean pagamentoPayPal(double nuovoTotale, Prenotazione prenotazione, String email, int puntiSelezionati) {
@@ -152,6 +151,11 @@ public class FinchAirlines {
 	
 	public boolean pagamentoCartaCredito(double nuovoTotale, Prenotazione prenotazione, String numeroCarta, int puntiSelezionati) {
 		return prenotazione.effettuaPagamento(nuovoTotale, numeroCarta, puntiSelezionati);
+	}
+	
+	public double calcolaNuovoTotale(double puntiSelezionati, double totale) {
+		double sconto = (double) puntiSelezionati / 100;
+		return (totale-((totale/100)*sconto));
 	}
 	
 

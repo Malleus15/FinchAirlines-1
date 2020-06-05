@@ -130,10 +130,10 @@ public class Prenotazione {
 	}
 	
 	public boolean effettuaPagamento(double nuovoTotale, String idConto, int puntiSelezionati) {
-		boolean confermaPagamento = this.pagamento.eseguiPagamento(nuovoTotale, idConto);
-		if(confermaPagamento)
+		this.pagato = this.pagamento.eseguiPagamento(nuovoTotale, idConto);
+		if(this.pagato)
 			this.cliente.decrementaPunti(puntiSelezionati);
-		return confermaPagamento;
+		return this.pagato;
 	}
 
 }
