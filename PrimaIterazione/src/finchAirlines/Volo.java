@@ -39,8 +39,11 @@ public class Volo {
 	}
 	
 	public boolean controllaData() {
-		//creare localdatetime di oggi e confrontarlo con oraPartenza
-		//return true or false
+		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime dataCheckin = this.oraPartenza.minusDays(7);
+		if(dataCheckin.isBefore(today) && this.oraPartenza.isAfter(today))
+			return true;
+		return false;
 		
 	}
 	

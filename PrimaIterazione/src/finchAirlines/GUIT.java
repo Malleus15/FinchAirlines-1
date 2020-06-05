@@ -118,7 +118,7 @@ public class GUIT {
 			System.out.println("Voli trovati per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
 			//voloScelto -> variabile per il volo scelto dall'utente per la tratta i-esima
 			for(int j = 0; j < voliTrovati.get(i).size(); j++)
-				System.out.println((j+1)+". "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
+				System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
 			System.out.print("Seleziona il volo: ");
 			int voloScelto = scan.nextInt();
 			gestisciPrenotazione.selezionaVoli(voliTrovati.get(i).get(voloScelto - 1), i);
@@ -166,15 +166,16 @@ public class GUIT {
 		do {
 			System.out.println("Seleziona i punti da utilizare per lo sconto");
 			puntiSelezionati = scan.nextInt();
-			if ((puntiSelezionati > punti) && (puntiSelezionati<0))
+			if ((puntiSelezionati > punti) || (puntiSelezionati<0))
 				System.out.println("Selezione non corretta!");
 		}
-		while((puntiSelezionati > punti) && (puntiSelezionati<0));
+		while((puntiSelezionati > punti) || (puntiSelezionati<0));
 		
 		double nuovoTotale = finchAirlines.selezionaPunti(puntiSelezionati, prenotazione1.getTotale());
 		System.out.println("Selezionati " + puntiSelezionati + "punti, nuovo totale: " + nuovoTotale);
 		
 		System.out.println("Inserire email per effettuare il pagamento tramite il conto PayPal:");
+		scan.nextLine();
 		String emailPayPal = scan.nextLine();
 		
 		if(finchAirlines.pagamentoPayPal(nuovoTotale, prenotazione1, emailPayPal, puntiSelezionati))
@@ -205,7 +206,9 @@ public class GUIT {
 		CartaDiImbarco cartaDiImbarco = finchAirlines.confermaInserimento(prenotazioneSelezionata, voloPrenotato);
 		if (cartaDiImbarco.equals(null))
 			System.out.println("Impossibile effettuare il checkin.");
-		//stampare le informazioni di cartaDiImbarco
+		System.out.println("Checkin effettuato.");
+		System.out.println("Il volo per cui è stato effettuato il checkin è " + voloPrenotato.getVolo().getDescrizioneVolo().getCodice()+ " con partenza da " + voloPrenotato.getVolo().getDescrizioneVolo().getAeroporti()[0].getCitta()+" in data " + voloPrenotato.getVolo().getOraPartenza());
+		scan.close();
 	}
 
 }
