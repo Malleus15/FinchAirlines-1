@@ -7,11 +7,15 @@ public class Volo {
 	private LocalDateTime oraPartenza;
 	private LocalDateTime oraArrivo;
 	private DescrizioneVolo descrizioneVolo;
+	private double prezzo;
 	
 	public Volo(LocalDateTime oraPartenza, LocalDateTime oraArrivo, DescrizioneVolo descrizioneVolo) {
 		this.oraPartenza = oraPartenza;
 		this.oraArrivo = oraArrivo;
 		this.descrizioneVolo = descrizioneVolo;
+	}
+	public Volo() {
+		
 	}
 
 	public LocalDateTime getOraPartenza() {
@@ -45,6 +49,13 @@ public class Volo {
 			return true;
 		return false;
 		
+	}
+	
+	public void riempiDettagliVolo(DescrizioneVolo descrizioneVolo, double prezzo, LocalDateTime oraPartenza, LocalDateTime oraArrivo) {
+		this.descrizioneVolo = descrizioneVolo;
+		this.prezzo = prezzo;
+		this.oraPartenza = oraPartenza;
+		this.oraArrivo = oraArrivo;
 	}
 	
 	

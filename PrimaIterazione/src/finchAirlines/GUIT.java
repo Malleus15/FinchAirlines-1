@@ -22,7 +22,7 @@ public class GUIT {
 		Aeroporto aeroporto3 = new Aeroporto("Aeroporto Intercontinetale di Milano Malpensa", "Milano", "MXP");
 		Aeroporto aeroporto4 = new Aeroporto("Aeroporto Internazione di Verona", "Verona", "VRN");
 		
-		Volo volo1 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 19, 00), LocalDateTime.of(2020, Month.MARCH, 15, 20, 00), new DescrizioneVolo("FA0001", 30, aeroporto1, aeroporto2));
+		/*Volo volo1 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 19, 00), LocalDateTime.of(2020, Month.MARCH, 15, 20, 00), new DescrizioneVolo("FA0001", 30, aeroporto1, aeroporto2));
 		listaVoliDisponibili.add(volo1);
 		
 		Volo volo2 = new Volo(LocalDateTime.of(2020, Month.MARCH, 15, 15, 00), LocalDateTime.of(2020, Month.MARCH, 15, 16, 00), new DescrizioneVolo("FA0002", 15, aeroporto1, aeroporto2));
@@ -53,7 +53,7 @@ public class GUIT {
 		listaVoliDisponibili.add(volo10);
 		
 		Volo volo11 = new Volo(LocalDateTime.of(2020, Month.MARCH, 29, 18, 00), LocalDateTime.of(2020, Month.MARCH, 29, 19, 00), new DescrizioneVolo("FA0102", 35, aeroporto3, aeroporto1));
-		listaVoliDisponibili.add(volo11);
+		listaVoliDisponibili.add(volo11);*/
 		
 		
 		finchAirlines.setListaVoli(listaVoliDisponibili);
@@ -118,7 +118,7 @@ public class GUIT {
 			System.out.println("Voli trovati per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
 			//voloScelto -> variabile per il volo scelto dall'utente per la tratta i-esima
 			for(int j = 0; j < voliTrovati.get(i).size(); j++)
-				System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
+			//	System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
 			System.out.print("Seleziona il volo: ");
 			int voloScelto = scan.nextInt();
 			gestisciPrenotazione.selezionaVoli(voliTrovati.get(i).get(voloScelto - 1), i);

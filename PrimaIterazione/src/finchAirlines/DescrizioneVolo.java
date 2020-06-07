@@ -3,14 +3,13 @@ package finchAirlines;
 public class DescrizioneVolo {
 
 	private String codice;
-	private double prezzo;
 	private Aeroporto[] aeroporti = new Aeroporto[2];
+	private ProgrammaFedelta programmaFedelta;
 	
-	public DescrizioneVolo(String codice, double prezzo, Aeroporto aeroporto1, Aeroporto aeroporto2) {
+	public DescrizioneVolo(String codice, Aeroporto[] tratta) {
 		this.codice = codice;
-		this.prezzo = prezzo;
-		this.aeroporti[0]=aeroporto1;
-		this.aeroporti[1]=aeroporto2;
+		this.aeroporti[0]=tratta[0];
+		this.aeroporti[1]=tratta[1];
 	}
 
 	public String getCodice() {
@@ -21,14 +20,6 @@ public class DescrizioneVolo {
 		this.codice = codice;
 	}
 
-	public double getPrezzo() {
-		return prezzo;
-	}
-
-	public void setPrezzo(double prezzo) {
-		this.prezzo = prezzo;
-	}
-
 	public Aeroporto[] getAeroporti() {
 		return aeroporti;
 	}
@@ -36,6 +27,11 @@ public class DescrizioneVolo {
 	public void setAeroporti(Aeroporto[] aeroporti) {
 		this.aeroporti = aeroporti;
 	}
+	
+	public void assegnaProgrammaFedelta(ProgrammaFedelta programmaFedelta) {
+		this.programmaFedelta = programmaFedelta;
+	}
+	
 	
 	
 	

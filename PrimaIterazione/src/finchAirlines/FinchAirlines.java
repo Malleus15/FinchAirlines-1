@@ -9,12 +9,14 @@ public class FinchAirlines {
 	private ArrayList<Cliente> listaClienti;
 	private ArrayList<Prenotazione> listaPrenotazioni;
 	private ArrayList<Volo> listaVoli;
+	private ArrayList<Amministratore> listaAmministratori;
 	
 
 	public FinchAirlines() {
 		this.listaClienti = new ArrayList<Cliente>();
 		this.listaPrenotazioni = new ArrayList<Prenotazione>();
 		this.listaVoli = new ArrayList<Volo>();
+		this.listaAmministratori = new ArrayList<Amministratore>();
 	}
 	
 	
@@ -158,5 +160,58 @@ public class FinchAirlines {
 		return (totale-((totale/100)*sconto));
 	}
 	
-
+	public ArrayList<Volo> inserisciVoli(int numeroVoli){
+		ArrayList<Volo> voli = new ArrayList<Volo>();
+		for(int i=0; i<numeroVoli; i++) {
+			Volo volo = new Volo();
+			voli.add(volo);
+		}
+		return voli;
+	}
+	
+	public Aeroporto[] inserisciTratta(String aeroporto1, String aeroporto2, String citta1, String citta2, String codice1, String codice2) {
+		Aeroporto[] aeroporti = new Aeroporto[2];
+		aeroporti[0].setNome(aeroporto1);
+		aeroporti[0].setCitta(citta1);
+		aeroporti[0].setCodice(codice1);
+		aeroporti[1].setNome(aeroporto2);
+		aeroporti[1].setCitta(citta2);
+		aeroporti[1].setCodice(codice2);
+		return aeroporti;
+	}
+	
+	public DescrizioneVolo inserisciDescrizione(String codiceVolo, Aeroporto[] tratta) {
+		return new DescrizioneVolo(codiceVolo, tratta);		
+	}
+	
+	public Volo inserisciDettagliVolo(DescrizioneVolo descrizioneVolo, Volo volo, double prezzo, LocalDateTime oraPartenza, LocalDateTime oraArrivo) {
+		volo.riempiDettagliVolo(descrizioneVolo, prezzo, oraPartenza, oraArrivo);
+		return volo;
+	}
+	
+	public boolean confermaInserimento(ArrayList<Volo> voli) {
+		this.listaVoli.addAll(voli);
+		return true;
+	}
+	
+	public ProgrammaFedelta inserisciProgrammaFedelta(String nome, double coefficientePunti) {
+		return new ProgrammaFedelta(nome, coefficientePunti);
+	}
+	
+	public boolean associaProgrammaFedelta(String codiceVolo, ProgrammaFedelta programmaFedelta) {
+		DescrizioneVolo descrizioneVolo=null;
+		for(Volo volo: this.listaVoli) {
+			descrizioneVolo = volo.getDescrizioneVolo();
+			if(descrizioneVolo.getCodice().equals(codiceVolo))
+				break;
+			else 
+				descrizioneVolo = null;
+		}
+		if(descrizioneVolo != null) {
+			descrizioneVolo.assegnaProgrammaFedelta(programmaFedelta);
+			return true;
+		}
+		return false;
+		
+	}
 }
