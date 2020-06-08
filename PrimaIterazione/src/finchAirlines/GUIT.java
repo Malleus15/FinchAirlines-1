@@ -15,7 +15,7 @@ public class GUIT {
 		finchAirlines.setListaClienti(listaClienti);
 		
 		/*Riempimento listaVoli di FinchAirlines*/
-		ArrayList<Volo> listaVoliDisponibili = new ArrayList<Volo>();
+		/*ArrayList<Volo> listaVoliDisponibili = new ArrayList<Volo>();
 		
 		Aeroporto aeroporto1 = new Aeroporto("Aeroporto Internazionale di Catania Vincenzo Bellini", "Catania", "CTA");
 		Aeroporto aeroporto2 = new Aeroporto("Aeroporto Intercontinentale di Roma Leonardo da Vinci", "Roma", "FCO");
@@ -55,8 +55,38 @@ public class GUIT {
 		Volo volo11 = new Volo(LocalDateTime.of(2020, Month.MARCH, 29, 18, 00), LocalDateTime.of(2020, Month.MARCH, 29, 19, 00), new DescrizioneVolo("FA0102", 35, aeroporto3, aeroporto1));
 		listaVoliDisponibili.add(volo11);*/
 		
+		Scanner scan = new Scanner(System.in);
 		
-		finchAirlines.setListaVoli(listaVoliDisponibili);
+		System.out.println("Benvenuto, quanti voli vuoi inserire?");
+		int numeroVoli = scan.nextInt();
+		scan.nextLine();
+		ArrayList<Volo> voli = finchAirlines.inserisciVoli(numeroVoli);
+		Aeroporto[] tratta = finchAirlines.inserisciTratta("Catania Fontanarossa", "Milano Malpensa" , "Catania", "Milano", "CTA", "FCO");
+		DescrizioneVolo descrizioneVolo = finchAirlines.inserisciDescrizione("A210", tratta);
+		for(int i=0; i<numeroVoli; i++) {
+			System.out.println("Inserisci il prezzo per il volo numero "+ (i+1) +":");
+			double prezzo = scan.nextDouble();
+			scan.nextLine();
+			System.out.println("Inserisci il giorno per il volo numero "+ (i+1) +":");
+			int giorno = scan.nextInt();
+			scan.nextLine();
+			System.out.println("Inserisci l'ora di partenza per il volo numero "+ (i+1) +":");
+			int ora1 = scan.nextInt();
+			scan.nextLine();
+			System.out.println("Inserisci l'ora di arrivo per il volo numero "+ (i+1) +":");
+			int ora2 = scan.nextInt();
+			scan.nextLine();
+			LocalDateTime oraPartenza= LocalDateTime.of(2020, Month.MARCH, giorno, ora1, 00);
+			LocalDateTime oraArrivo= LocalDateTime.of(2020, Month.MARCH, giorno, ora2, 00);
+			finchAirlines.inserisciDettagliVolo(descrizioneVolo, voli.get(i), prezzo , oraPartenza, oraArrivo);
+		}
+		if(finchAirlines.confermaInserimento(voli))
+			System.out.println("voli inseriti con successo!" + finchAirlines.getListaVoli());
+		
+		
+		ProgrammaFedelta programmaFedelta = finchAirlines.inserisciProgrammaFedelta("Pippo", 0.1);
+		if(finchAirlines.associaProgrammaFedelta("A210", programmaFedelta))
+			System.out.println("programma fedeltà creato con successo");
 		
 		
 		
@@ -83,7 +113,7 @@ public class GUIT {
 													
 		
 													/*OPERAZIONI GUI*/	
-		Scanner scan = new Scanner(System.in);
+		
 		String email;
 		String password;
 		boolean check;
@@ -118,7 +148,8 @@ public class GUIT {
 			System.out.println("Voli trovati per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
 			//voloScelto -> variabile per il volo scelto dall'utente per la tratta i-esima
 			for(int j = 0; j < voliTrovati.get(i).size(); j++)
-			//	System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getDescrizioneVolo().getPrezzo()+" €");
+				System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getPrezzo()+" €");
+			//Controllare che vengano trovati voli per la data selezionata
 			System.out.print("Seleziona il volo: ");
 			int voloScelto = scan.nextInt();
 			gestisciPrenotazione.selezionaVoli(voliTrovati.get(i).get(voloScelto - 1), i);
@@ -208,6 +239,7 @@ public class GUIT {
 			System.out.println("Impossibile effettuare il checkin.");
 		System.out.println("Checkin effettuato.");
 		System.out.println("Il volo per cui è stato effettuato il checkin è " + voloPrenotato.getVolo().getDescrizioneVolo().getCodice()+ " con partenza da " + voloPrenotato.getVolo().getDescrizioneVolo().getAeroporti()[0].getCitta()+" in data " + voloPrenotato.getVolo().getOraPartenza());
+		
 		scan.close();
 	}
 

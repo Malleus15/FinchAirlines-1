@@ -169,14 +169,24 @@ public class FinchAirlines {
 		return voli;
 	}
 	
+	public ArrayList<Amministratore> getListaAmministratori() {
+		return listaAmministratori;
+	}
+
+
+
+
+	public void setListaAmministratori(ArrayList<Amministratore> listaAmministratori) {
+		this.listaAmministratori = listaAmministratori;
+	}
+
+
+
+
 	public Aeroporto[] inserisciTratta(String aeroporto1, String aeroporto2, String citta1, String citta2, String codice1, String codice2) {
 		Aeroporto[] aeroporti = new Aeroporto[2];
-		aeroporti[0].setNome(aeroporto1);
-		aeroporti[0].setCitta(citta1);
-		aeroporti[0].setCodice(codice1);
-		aeroporti[1].setNome(aeroporto2);
-		aeroporti[1].setCitta(citta2);
-		aeroporti[1].setCodice(codice2);
+		aeroporti[0] = new Aeroporto(aeroporto1,citta1,codice1);
+		aeroporti[1] = new Aeroporto(aeroporto2,citta2,codice2);
 		return aeroporti;
 	}
 	
@@ -215,3 +225,24 @@ public class FinchAirlines {
 		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

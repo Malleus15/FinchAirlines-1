@@ -31,7 +31,10 @@ public class DescrizioneVolo {
 	public void assegnaProgrammaFedelta(ProgrammaFedelta programmaFedelta) {
 		this.programmaFedelta = programmaFedelta;
 	}
-	
+
+	public ProgrammaFedelta getProgrammaFedelta() {
+		return programmaFedelta;
+	}
 	
 	
 	

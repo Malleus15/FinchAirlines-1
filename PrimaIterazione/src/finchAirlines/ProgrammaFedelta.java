@@ -16,6 +16,11 @@ public class ProgrammaFedelta {
 		this.nome = nome;
 		this.descrizioneProgrammaFedelta = new DescrizioneProgrammaFedelta(coefficientePunti);
 	}
+
+	public DescrizioneProgrammaFedelta getDescrizioneProgrammaFedelta() {
+		return descrizioneProgrammaFedelta;
+	}
+
 	
 	
 	
