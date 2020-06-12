@@ -114,7 +114,7 @@ public class GUIT {
 		
 													/*OPERAZIONI GUI*/	
 		
-		String email;
+		String email = "";
 		String password;
 		boolean check;
 		
@@ -122,6 +122,7 @@ public class GUIT {
 		System.out.println("[1]Login Utente");
 		System.out.println("[2]Login Admin");
 		int login= scan.nextInt();
+		
 		switch(login) {
 		case 1:
 			do {
