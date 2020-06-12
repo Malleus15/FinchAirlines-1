@@ -1,6 +1,6 @@
 package finchAirlines;
 
-public class Amministratore {
+public class Amministratore implements Authenticator{
 	private String nome;
 	private String cognome;
 	private String email;
@@ -55,7 +55,15 @@ public class Amministratore {
 		this.password = password;
 		this.telefono = telefono;
 	}
+
+	@Override
+	public boolean verificaPassword(String password) {
+		if(password.equals(this.password))
+			return true;
+		else
+			return false;
+	}
+}
 	
 	
 
-}

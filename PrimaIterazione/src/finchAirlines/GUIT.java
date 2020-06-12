@@ -119,17 +119,42 @@ public class GUIT {
 		boolean check;
 		
 		System.out.println("Benvenuto sul sistema di prenotazione di FinchAirlines!\n\n");
-		do {
-			System.out.println("Inserisci il tuo indirizzo email: ");		
-			email = scan.nextLine();
-			System.out.println("Inserisci la tua password: ");	
-			password = scan.nextLine();
-			check = finchAirlines.autenticaCliente(email, password);
-			if(!check)
-				System.out.println("Email o password errata!\n\n");
+		System.out.println("[1]Login Utente");
+		System.out.println("[2]Login Admin");
+		int login= scan.nextInt();
+		switch(login) {
+		case 1:
+			do {
+				System.out.println("Inserisci il tuo indirizzo email: ");		
+				email = scan.nextLine();
+				System.out.println("Inserisci la tua password: ");	
+				password = scan.nextLine();
+				check = finchAirlines.autenticaCliente(email, password);
+				if(!check)
+					System.out.println("Email o password errata!\n\n");
+				break;
+			}
+			while(!check);
+			System.out.println("Login utente avvenuto correttamente!\n");
+		
+		case 2:
+			do {
+				System.out.println("Inserisci il tuo indirizzo email: ");		
+				email = scan.nextLine();
+				System.out.println("Inserisci la tua password: ");	
+				password = scan.nextLine();
+				check = finchAirlines.autenticaAmministratore(email, password);
+				if(!check)
+					System.out.println("Email o password errata!\n\n");
+				break;
+			}
+			while(!check);
+			System.out.println("Login admin avvenuto correttamente!\n");
 		}
-		while(!check);
-		System.out.println("Login avvenuto correttamente!\n");
+		/*default:
+			System.out.println("Scelta non corretta");*/
+		
+		
 		
 		System.out.println("Informazioni di ricerca:\n");
 		for(int i=0; i < tipo_viaggio; i++) {
