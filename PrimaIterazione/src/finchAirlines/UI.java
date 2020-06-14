@@ -1,17 +1,22 @@
 package finchAirlines;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import org.hibernate.Session;    
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/*import org.hibernate.Session;    
 import org.hibernate.SessionFactory;    
 import org.hibernate.Transaction;  
 import org.hibernate.boot.Metadata;  
 import org.hibernate.boot.MetadataSources;  
 import org.hibernate.boot.registry.StandardServiceRegistry;  
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;  
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;  */
 
 
 
@@ -22,20 +27,71 @@ public class UI {
 		String jdbcURL = "jdbc:mysql://localhost:3306/FinchAirlines?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = "root";
 		String pass = "password";
+		FinchAirlines finchAirlines = new FinchAirlines();
 		Connection myconn;
+		/*HibernateUtil 
+		Session session = HibernateUtil.getSessionFactory().openSession();*/
+		ArrayList<Cliente> listaClienti = new ArrayList<Cliente>();
+		ArrayList<Volo> listaVoli = new ArrayList();
 		try {
 			myconn = DriverManager.getConnection(jdbcURL, user, pass);
+			Statement sttm = myconn.createStatement();
+			ResultSet rs = sttm.executeQuery("SELECT * FROM clienti");
+			while(rs.next()) {
+				String data_rilascio = rs.getString("data_rilascio");
+				String data_scadenza = rs.getString("data_scadenza");
+				DateTimeFormatter data = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime dataRilascio = LocalDateTime.parse(data_rilascio, data);
+				LocalDateTime dataScadenza = LocalDateTime.parse(data_scadenza, data);
+				Cliente cliente = new Cliente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("telefono"), rs.getString("pass"), new Documento(rs.getString("id_documento"), dataRilascio, dataScadenza, rs.getString("tipo")));
+				cliente.setPunti(rs.getInt("punti"));
+				listaClienti.add(cliente);
+			}
 			
+			Statement stmVoliCompleti = myconn.createStatement();
+			ResultSet rsVoliCompleti = stmVoliCompleti.executeQuery("SELECT v.ora_partenza,v.ora_arrivo,v.prezzo,d.codice, t.nome1,t.nome2,t.codice1,t.codice2,t.citta1,t.citta2,p.nome,p.coefficiente_punti, d.nome_programma_fedelta FROM programmaFedelta p,descrizioneVoli d, voli v, tratte t WHERE d.codice=v.codice AND t.codice1=d.codice1_tratta AND t.codice1=d.codice1_tratta");
+			Statement stmProgrammaFedelta = myconn.createStatement();
+			ResultSet rsProgrammaFedelta = stmProgrammaFedelta.executeQuery("SELECT * FROM programmaFedelta");
+			ArrayList<ProgrammaFedelta> programmaFedeltaList = new ArrayList<>();
+			
+			while(rsProgrammaFedelta.next()) {
+				ProgrammaFedelta programmaFedelta = new ProgrammaFedelta(rsProgrammaFedelta.getString("nome"), rsProgrammaFedelta.getDouble("coefficiente_punti"));
+				programmaFedeltaList.add(programmaFedelta);
+			}
+			while(rsVoliCompleti.next()) {
+				//voli.prezzo, voli.ora_partenza, voli.ora_arrivo, descrizioneVoli.codice1_tratte, descrizioneVoli.codice2_tratte, descrizioneVoli.nome
+				//String codiceDescrizione = rsVoli.getString("codice");
+				
+				Aeroporto aeroporto1 = new Aeroporto(rsVoliCompleti.getString("nome1"), rsVoliCompleti.getString("citta1"), rsVoliCompleti.getString("codice1"));
+				Aeroporto aeroporto2 = new Aeroporto(rsVoliCompleti.getString("nome2"), rsVoliCompleti.getString("citta2"), rsVoliCompleti.getString("codice2"));
+				Aeroporto[] tratte = {aeroporto1, aeroporto2};
+				DescrizioneVolo descrizioneVolo = new DescrizioneVolo(rsVoliCompleti.getString("codice"), tratte);
+				
+				String ora_partenza = rsVoliCompleti.getString("ora_partenza");
+				String ora_arrivo = rsVoliCompleti.getString("ora_arrivo");
+				DateTimeFormatter data = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime oraPartenza = LocalDateTime.parse(ora_partenza, data);
+				LocalDateTime oraArrivo = LocalDateTime.parse(ora_arrivo, data);
+				
+				for(ProgrammaFedelta programmaFedelta: programmaFedeltaList) {
+					if(programmaFedelta.getNome().equals(rsVoliCompleti.getString("nome_programma_fedelta")))
+						if(programmaFedelta.getNome().equals("nessuno"))
+							break;
+						else
+							descrizioneVolo.assegnaProgrammaFedelta(programmaFedelta);
+				}
+				Volo volo = new Volo();
+				volo.riempiDettagliVolo(descrizioneVolo, rsVoliCompleti.getDouble("prezzo"), oraPartenza, oraArrivo);
+				listaVoli.add(volo);
+			}
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();
 		}
+		
 			
-		FinchAirlines finchAirlines = new FinchAirlines();
 		
 		/*Riempimento listaClienti di FinchAirlines*/
-		ArrayList<Cliente> listaClienti = new ArrayList<Cliente>();
-		//myconn.
 		//finchAirlines.setListaClienti(listaClienti);
 		
 		Scanner scan = new Scanner(System.in);

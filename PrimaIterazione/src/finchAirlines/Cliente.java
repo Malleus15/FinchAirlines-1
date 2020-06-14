@@ -1,12 +1,29 @@
 package finchAirlines;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import org.hibernate.Session;    
+import org.hibernate.SessionFactory;    
+import org.hibernate.Transaction;  
+import org.hibernate.boot.Metadata;  
+import org.hibernate.boot.MetadataSources;  
+import org.hibernate.boot.registry.StandardServiceRegistry;  
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;  
+
+@Entity
+@Table(name="cliente")
 public class Cliente implements Authenticator{
 
 	private String nome;
 	private String cognome;
 	private String email;
 	private String telefono;
-	private String password;
+	private String password;	
 	private Documento documento;
 	private int punti;
 

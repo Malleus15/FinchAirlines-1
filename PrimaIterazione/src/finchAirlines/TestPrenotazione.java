@@ -9,7 +9,7 @@ class TestPrenotazione {
 
 	@Test
 	void testCalcolaTotaleVoli() {
-		VoloPrenotato[] listaVoliPrenotati = new VoloPrenotato[3];
+		//VoloPrenotato[] listaVoliPrenotati = new VoloPrenotato[3];
 	}		
 		/*Aeroporto aeroporto1 = new Aeroporto("Aeroporto Internazionale di Catania Vincenzo Bellini", "Catania", "CTA");
 		Aeroporto aeroporto2 = new Aeroporto("Aeroporto Intercontinentale di Roma Leonardo da Vinci", "Roma", "FCO");
