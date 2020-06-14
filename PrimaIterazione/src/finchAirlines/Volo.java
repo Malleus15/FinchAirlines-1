@@ -9,8 +9,7 @@ public class Volo {
 	private DescrizioneVolo descrizioneVolo;
 	private double prezzo;
 	
-	public Volo() {
-	}
+	public Volo() {}
 
 	public LocalDateTime getOraPartenza() {
 		return oraPartenza;

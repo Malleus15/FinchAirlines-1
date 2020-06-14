@@ -224,6 +224,23 @@ public class FinchAirlines {
 		return false;
 		
 	}
+	
+	public boolean autenticaAmministratore(String email, String password) {
+		Amministratore amministratore = ricercaAmministratore(email);
+		return amministratore.verificaPassword(password);
+		
+	}
+	
+	public Amministratore ricercaAmministratore(String email) {
+		for(Amministratore amministratore: listaAmministratori)
+			if(amministratore.getEmail().equalsIgnoreCase(email))
+				return amministratore;
+		return null;
+	}
+	
+	public int accreditaPunti(Prenotazione prenotazione) {
+		return prenotazione.accreditaPunti();
+	}
 }
 
 

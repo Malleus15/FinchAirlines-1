@@ -135,5 +135,22 @@ public class Prenotazione {
 			this.cliente.decrementaPunti(puntiSelezionati);
 		return this.pagato;
 	}
+	
+	public int accreditaPunti() {
+		int puntiAccreditati = 0;
+		for(VoloPrenotato voloPrenotato: this.listaVoli) {
+			double prezzo = voloPrenotato.getVolo().getPrezzo();
+			DescrizioneVolo descrizioneVolo = voloPrenotato.getVolo().getDescrizioneVolo();
+			ProgrammaFedelta programmaFedelta = descrizioneVolo.getProgrammaFedelta();
+			if(programmaFedelta != null) {
+				DescrizioneProgrammaFedelta descrizioneProgrammaFedelta = programmaFedelta.getDescrizioneProgrammaFedelta();
+				double coefficientePunti = descrizioneProgrammaFedelta.getCoefficientePunti();
+				puntiAccreditati += this.getCliente().incrementaPunti(coefficientePunti, prezzo);
+			}
+			else
+				puntiAccreditati += this.getCliente().incrementaPunti(0, prezzo);
+		}
+	return puntiAccreditati;
+	}
 
 }

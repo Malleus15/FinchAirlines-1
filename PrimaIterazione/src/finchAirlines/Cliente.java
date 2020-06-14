@@ -1,6 +1,6 @@
 package finchAirlines;
 
-public class Cliente {
+public class Cliente implements Authenticator{
 
 	private String nome;
 	private String cognome;
@@ -90,8 +90,7 @@ public class Cliente {
 		this.punti = punti;
 	}
 
-
-
+	@Override
 	public boolean verificaPassword(String password) {
 		if(password.equals(this.password))
 			return true;
@@ -101,6 +100,12 @@ public class Cliente {
 	
 	public void decrementaPunti(int puntiSelezionati) {
 		this.punti = this.punti - puntiSelezionati;
+	}
+	
+	public int incrementaPunti(double coefficientePunti, double prezzo) {
+		int punti =  (int) (coefficientePunti*prezzo);
+		this.punti = this.punti + punti;
+		return punti;
 	}
 
 }
