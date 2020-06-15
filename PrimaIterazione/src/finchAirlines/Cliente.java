@@ -116,13 +116,21 @@ public class Cliente implements Authenticator{
 	}
 	
 	public void decrementaPunti(int puntiSelezionati) {
-		this.punti = this.punti - puntiSelezionati;
+		if(puntiSelezionati > 0)
+			if(this.punti >= puntiSelezionati)
+				this.punti = this.punti - puntiSelezionati;
+			else
+				this.punti = 0;
 	}
 	
 	public int incrementaPunti(double coefficientePunti, double prezzo) {
-		int punti =  (int) (coefficientePunti*prezzo);
-		this.punti = this.punti + punti;
-		return punti;
+		if(prezzo > 0 && coefficientePunti >= 0) {
+			int punti =  (int) (coefficientePunti*prezzo);
+			this.punti = this.punti + punti;
+			return punti;
+		}
+		else
+			return 0;
 	}
 
 }

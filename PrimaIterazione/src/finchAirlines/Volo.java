@@ -46,7 +46,10 @@ public class Volo {
 	
 	public void riempiDettagliVolo(DescrizioneVolo descrizioneVolo, double prezzo, LocalDateTime oraPartenza, LocalDateTime oraArrivo) {
 		this.descrizioneVolo = descrizioneVolo;
-		this.prezzo = prezzo;
+		if(prezzo > 0)
+			this.prezzo = prezzo;
+		else
+			this.prezzo = 0;
 		this.oraPartenza = oraPartenza;
 		this.oraArrivo = oraArrivo;
 	}

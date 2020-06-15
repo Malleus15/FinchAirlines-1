@@ -156,8 +156,16 @@ public class FinchAirlines {
 	}
 	
 	public double calcolaNuovoTotale(double puntiSelezionati, double totale) {
-		double sconto = (double) puntiSelezionati / 100;
-		return (totale-((totale/100)*sconto));
+		double sconto;
+		if(totale > 0) {
+			if(puntiSelezionati < 0)
+				sconto = 0;
+			else
+				sconto = (double) puntiSelezionati / 100;
+			return (totale-((totale/100)*sconto));
+		}
+		else
+			return 0;
 	}
 	
 	public ArrayList<Volo> inserisciVoli(int numeroVoli){
