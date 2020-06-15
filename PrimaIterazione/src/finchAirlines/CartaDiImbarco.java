@@ -13,6 +13,12 @@ public class CartaDiImbarco {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "CartaDiImbarco [prenotazione=" + prenotazione + ", voloPrenotato=" + voloPrenotato + "]";
+	}
+
+
 	public Prenotazione getPrenotazione() {
 		return prenotazione;
 	}
