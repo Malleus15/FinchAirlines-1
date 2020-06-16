@@ -47,8 +47,17 @@ public class UI {
 				Cliente cliente = new Cliente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("telefono"), rs.getString("pass"), new Documento(rs.getString("id_documento"), dataRilascio, dataScadenza, rs.getString("tipo")));
 				cliente.setPunti(rs.getInt("punti"));
 				listaClienti.add(cliente);
+				
+			}
+			sttm = myconn.createStatement();
+			rs = sttm.executeQuery("SELECT * FROM Amministratori");
+			ArrayList<Amministratore> listaAmministratori = new ArrayList<>();
+			while(rs.next()) {
+				Amministratore amministratore = new Amministratore(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"), rs.getString("pass"), rs.getString("telefono") );
+				listaAmministratori.add(amministratore);
 			}
 			finchAirlines.setListaClienti(listaClienti);
+			finchAirlines.setListaAmministratori(listaAmministratori);
 			
 			Statement stmVoliCompleti = myconn.createStatement();
 			ResultSet rsVoliCompleti = stmVoliCompleti.executeQuery("SELECT v.ora_partenza,v.ora_arrivo,v.prezzo,d.codice, d.nome_programma_fedelta, t.nome1,t.nome2,t.codice1,t.codice2,t.citta1,t.citta2, p.coefficiente_punti FROM descrizioneVoli d join voli v on v.codice=d.codice join tratte t on t.codice1=d.codice1_tratta AND t.codice2=d.codice2_tratta join programmaFedelta p on p.nome=d.nome_programma_fedelta");
@@ -78,7 +87,7 @@ public class UI {
 			
 			Statement stmPrenotazioni = myconn.createStatement();
 			ResultSet rsPrenotazioni = stmPrenotazioni.executeQuery("SELECT v.ora_partenza,v.ora_arrivo,v.prezzo, v.tipo_posto, v.numero_posto, v.tipo_bagaglio, d.codice, d.nome_programma_fedelta, t.nome1,t.nome2,t.codice1,t.codice2,t.citta1,t.citta2, p.coefficiente_punti FROM descrizioneVoli d join voli_prenotati v on v.codice=d.codice join tratte t on t.codice1=d.codice1_tratta AND t.codice2=d.codice2_tratta join programmaFedelta p on p.nome=d.nome_programma_fedelta join prenotazioni pp on v.numero_prenotazione=v.numero_prenotazione");
-			myconn.close();
+			//myconn.close();
 		}
 		catch(Exception exc) {
 			exc.printStackTrace();
@@ -373,197 +382,156 @@ public class UI {
 		
 		//operazioni amministratore
 		else {
-			System.out.println("Seleziona l'operazione da effettuare:");
-			System.out.println("[1]Gestisci voli");
-			System.out.println("[2]Gestisci un programma fedeltà");
-			int scelta = scan.nextInt();
-			switch(scelta) {
-			case 1:
-				break;
-			case 2:
-				break;
-			default:
-				System.out.println("Scelta non corretta");
+			
+			while(true) {
+				System.out.println("Seleziona l'operazione da effettuare:");
+				System.out.println("[1]Gestisci voli");
+				System.out.println("[2]Gestisci un programma fedeltà");
+				int scelta = scan.nextInt();
+				switch(scelta) {
+				case 1:
+					System.out.println("Seleziona l'operazione da effettuare:");
+					//C'è un altro menu perché serve per uso futuro
+					System.out.println("[1]Inserisci un volo");
+					int scelta1 = scan.nextInt();
+						switch(scelta1) {
+						case 1:
+							Aeroporto[] tratta;
+							ArrayList<Volo> voli;
+							ArrayList<Volo> copiaVoli = new ArrayList<>();
+							int numeroVoli=0;					
+							do {
+								System.out.println("Inserisci il numero di voli da creare");
+								numeroVoli = scan.nextInt();
+								scan.nextLine();
+								//while per inserire il valore corretto di numeroVoli>0
+								if(numeroVoli<0)
+									System.out.println("Il numero di voli deve essere un numero maggiore di zero");
+							} while(numeroVoli<0);
+							voli = finchAirlines.inserisciVoli(numeroVoli);
+							System.out.println("Inserisci i dati di una tratta");
+							//inserimento dati della tratta
+							System.out.println("Nome aeroporto partenza:");
+							String aeroporto1=scan.nextLine();
+							System.out.println("Nome città di partenza:");
+							String citta1=scan.nextLine();
+							System.out.println("Codice aeroporto di partenza:");
+							String codice1=scan.nextLine();
+							System.out.println("Nome aeroporto destinazione:");
+							String aeroporto2=scan.nextLine();				
+							System.out.println("Nome città di destinazione:");
+							String citta2=scan.nextLine();
+							System.out.println("Codice aeroporto di destinazione:");
+							String codice2=scan.nextLine();
+							tratta = finchAirlines.inserisciTratta(aeroporto1, aeroporto2, citta1, citta2, codice1, codice2);
+							System.out.println("Inserisci la descrizione del volo");
+							String codiceVolo=scan.nextLine();
+							DescrizioneVolo descrizioneVolo = finchAirlines.inserisciDescrizione(codiceVolo, tratta);
+							for(int i=0;i<numeroVoli; ++i) {
+								ArrayList<LocalDateTime> date = new ArrayList<LocalDateTime>();
+								System.out.println("Inserisci i dettagli del volo numero "+ (i+1));
+								//esegue finché il prezzo non è inserito correttamente
+								double prezzo=0;
+								do{							
+									System.out.println("Prezzo:");
+									prezzo = scan.nextDouble();
+									scan.nextLine();
+									if(prezzo<=0)
+										System.out.println("Il prezzo è un numero positivo");
+								} while(prezzo<=0);
+								System.out.println("Inserisci l'ora di partenza nel formato 'yyyy-MM-gg hh:MM'");
+								String oraPartenza = scan.nextLine();
+								oraPartenza=oraPartenza+":00";
+								System.out.println("Inserisci l'ora di arrivo nel formato 'yyyy-MM-gg hh:MM'");
+								String oraArrivo = scan.nextLine();
+								oraArrivo =oraArrivo+":00";
+								DateTimeFormatter dataPartenza = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+								date.add(LocalDateTime.parse(oraPartenza, dataPartenza));
+								DateTimeFormatter dataArrivo = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+								date.add(LocalDateTime.parse(oraArrivo, dataArrivo));
+								Volo volo=finchAirlines.inserisciDettagliVolo(descrizioneVolo, voli.get(i), prezzo, date.get(0), date.get(1));
+								voli.set(i, volo);
+								copiaVoli.add(volo);
+								
+								
+								
+							}
+							if (finchAirlines.confermaInserimento(copiaVoli)) {
+								System.out.println("Inserimento voli avvenuto correttamente!");	
+								try {
+									myconn = DriverManager.getConnection(jdbcURL, user, pass);
+									Statement stmVoli = myconn.createStatement();
+									//PreparedStatement preparedstm = myconn.prepareStatement(query);
+									stmVoli.executeUpdate("INSERT INTO tratte VALUES('"+tratta[0].getNome()+"', '"+tratta[0].getCitta()+"', '"+tratta[0].getCodice()+"', '"+tratta[1].getNome()+"', '"+tratta[1].getCitta()+"', '"+tratta[1].getCodice()+"');");
+									String programmafedelta;
+									if(descrizioneVolo.getProgrammaFedelta()==null)
+										programmafedelta = "nessuno";
+									else
+										programmafedelta=descrizioneVolo.getProgrammaFedelta().getNome();
+									stmVoli.executeUpdate("INSERT INTO descrizioneVoli VALUES('"+tratta[0].getCodice()+"', '"+tratta[1].getCodice()+"', '"+programmafedelta+"', '"+descrizioneVolo.getCodice()+"')");
+									for(Volo volo: voli) {
+										String oraPartenza=volo.getOraPartenza().toString().replace("T", " ");
+										String oraArrivo=volo.getOraArrivo().toString().replace("T", " ");
+										stmVoli.executeUpdate("INSERT INTO voli VALUES('"+volo.getDescrizioneVolo().getCodice()+"', '"+oraPartenza+"', '"+oraArrivo+"', "+volo.getPrezzo()+")");
+									}
+								}
+								catch(Exception exc) {
+									exc.printStackTrace();
+								}
+							}
+							else 
+								System.out.println("Inserimento voli non avvenuto correttamente!");
+							
+							break;
+						default:
+							System.out.println("Scelta non corretta, riprova");
+					}
+				case 2:
+					System.out.println("Seleziona l'operazione da effettuare:");
+					//C'è un altro menu perché serve per uso futuro
+					System.out.println("[1]Inserisci un programma fedeltà");
+					double coefficientePunti;
+					int scelta2 = scan.nextInt();
+					scan.nextLine();
+					switch(scelta2) {
+					case 1:
+						System.out.println("Inserisci il nome del programma fedeltà:");
+						String nome = scan.nextLine();
+						do {
+						System.out.println("Inserisci il coefficientePunti del programma fedeltà tra 0 e 1:");
+						coefficientePunti = scan.nextDouble();
+						scan.nextLine();
+						} 
+						while((coefficientePunti<=0) || (coefficientePunti>1));
+						ProgrammaFedelta programmaFedelta = finchAirlines.inserisciProgrammaFedelta(nome, coefficientePunti);
+						System.out.println("Inserisci il codice del volo a cui associare il programma fedeltà");
+						String codiceVolo = scan.nextLine();
+						if (finchAirlines.associaProgrammaFedelta(codiceVolo, programmaFedelta)) {
+							System.out.println("Programma Fedeltà associato correttamente al volo "+codiceVolo);
+							try {
+								myconn = DriverManager.getConnection(jdbcURL, user, pass);
+								Statement stmProgrammaFedelta = myconn.createStatement();
+								//PreparedStatement preparedstm = myconn.prepareStatement(query);
+								stmProgrammaFedelta.executeUpdate("INSERT INTO programmaFedelta VALUES('"+programmaFedelta.getNome()+"', "+programmaFedelta.getDescrizioneProgrammaFedelta().getCoefficientePunti()+")");
+								stmProgrammaFedelta.executeUpdate("UPDATE descrizioneVoli SET nome_programma_fedelta='"+programmaFedelta.getNome()+"' WHERE codice='"+codiceVolo+"'");
+								}
+							catch(Exception exc) {
+								exc.printStackTrace();
+							}
+							
+						}
+						break;
+						default:
+							System.out.println("Scelta non corretta, riprova");
+					}
+					break;
+				default:
+					System.out.println("Scelta non corretta");
+				}
 			}
 		}
 		
-		/*System.out.println("Seleziona l'operazione da effettuare:");
-		
-		
-		
-		
-		System.out.println("Benvenuto, quanti voli vuoi inserire?");
-		int numeroVoli = scan.nextInt();
-		scan.nextLine();
-		ArrayList<Volo> voli = finchAirlines.inserisciVoli(numeroVoli);
-		Aeroporto[] tratta = finchAirlines.inserisciTratta("Catania Fontanarossa", "Milano Malpensa" , "Catania", "Milano", "CTA", "FCO");
-		DescrizioneVolo descrizioneVolo = finchAirlines.inserisciDescrizione("A210", tratta);
-		for(int i=0; i<numeroVoli; i++) {
-			System.out.println("Inserisci il prezzo per il volo numero "+ (i+1) +":");
-			double prezzo = scan.nextDouble();
-			scan.nextLine();
-			System.out.println("Inserisci il giorno per il volo numero "+ (i+1) +":");
-			int giorno = scan.nextInt();
-			scan.nextLine();
-			System.out.println("Inserisci l'ora di partenza per il volo numero "+ (i+1) +":");
-			int ora1 = scan.nextInt();
-			scan.nextLine();
-			System.out.println("Inserisci l'ora di arrivo per il volo numero "+ (i+1) +":");
-			int ora2 = scan.nextInt();
-			scan.nextLine();
-			LocalDateTime oraPartenza= LocalDateTime.of(2020, Month.MARCH, giorno, ora1, 00);
-			LocalDateTime oraArrivo= LocalDateTime.of(2020, Month.MARCH, giorno, ora2, 00);
-			finchAirlines.inserisciDettagliVolo(descrizioneVolo, voli.get(i), prezzo , oraPartenza, oraArrivo);
-			
-		}
-		if(finchAirlines.confermaInserimento(voli))
-			System.out.println("voli inseriti con successo!" + finchAirlines.getListaVoli());
-		
-		
-		ProgrammaFedelta programmaFedelta = finchAirlines.inserisciProgrammaFedelta("Pippo", 0.1);
-		if(finchAirlines.associaProgrammaFedelta("A210", programmaFedelta))
-			System.out.println("programma fedeltà creato con successo");
-		
-		
-		
-		//variabili temporanee per la ricerca
-		
-		ArrayList<String> partenza = new ArrayList<String>();
-		ArrayList<String> destinazione = new ArrayList<String>();
-		ArrayList<LocalDateTime> date = new ArrayList<LocalDateTime>();
-		int tipo_viaggio;
-		
-		//Dati di ricerca
-		partenza.add("CTA");
-		partenza.add("FCO");
-		partenza.add("MXP");
-		destinazione.add("FCO");
-		destinazione.add("MXP");
-		destinazione.add("CTA");
-		tipo_viaggio = 3;		
-		date.add(LocalDateTime.of(2020, Month.MARCH, 15, 15, 00));
-		date.add(LocalDateTime.of(2020, Month.MARCH, 22, 15, 00));
-		date.add(LocalDateTime.of(2020, Month.MARCH, 29, 15, 00));
-		
-		GestisciPrenotazioneHandler gestisciPrenotazione = new GestisciPrenotazioneHandler(tipo_viaggio);
-		
-													
-		
-													OPERAZIONI GUI
-		
-		
-		
-		
-		System.out.println("Informazioni di ricerca:\n");
-		for(int i=0; i < tipo_viaggio; i++) {
-			System.out.println("Volo "+(i+1)+":");
-			System.out.println("Partenza: "+partenza.get(i)+" Destinazione: "+destinazione.get(i)+" Data: "+date.get(i)+"\n");
-		}
-		
-		System.out.println("Avvio ricerca...\n");
-		//Operazione di ricerca
-		ArrayList<ArrayList<Volo>> voliTrovati = finchAirlines.ricercaVolo(partenza, destinazione, tipo_viaggio, date); 
-		
-		
-		//messaggi di richiesta di prenotazione (pulsante acquista)
-		for(int i = 0; i < tipo_viaggio; i++) {		//i seleziona la tratta
-			//messaggio: Seleziona il volo per la tratta i-esima
-			System.out.println("Voli trovati per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
-			//voloScelto -> variabile per il volo scelto dall'utente per la tratta i-esima
-			for(int j = 0; j < voliTrovati.get(i).size(); j++)
-				System.out.println("["+(j+1)+"] "+voliTrovati.get(i).get(j).getOraPartenza()+"  "+voliTrovati.get(i).get(j).getOraArrivo()+" "+voliTrovati.get(i).get(j).getPrezzo()+" €");
-			//Controllare che vengano trovati voli per la data selezionata
-			System.out.print("Seleziona il volo: ");
-			int voloScelto = scan.nextInt();
-			gestisciPrenotazione.selezionaVoli(voliTrovati.get(i).get(voloScelto - 1), i);
-					
-		}
-		scan.nextLine();
-		
-		for(int i = 0; i < tipo_viaggio; i++) {
-			//messaggio: seleziona i servizi per il volo i-esimo
-			System.out.println("Seleziona il posto e il tipo per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
-			//postoScelto -> variabile per il posto scelto per la tratta i-esima
-			System.out.print("Inserisci posto: ");
-			String numeroPosto = scan.nextLine();
-			System.out.print("Inserisci tipo: ");
-			String tipoPosto = scan.nextLine();
-			gestisciPrenotazione.selezionaPosto(numeroPosto, tipoPosto, i);
-			
-		}
-		
-		for(int i = 0; i < tipo_viaggio; i++) {
-			//messaggio: seleziona i servizi per il volo i-esimo
-			System.out.print("Seleziona il bagaglio per la tratta "+partenza.get(i)+" - "+destinazione.get(i)+":");
-			String bagaglioScelto = scan.nextLine();
-			//bagaglioScelto -> variabile per il posto scelto per la tratta i-esima
-			gestisciPrenotazione.selezionaBagaglio(bagaglioScelto, i);
-		}
-		
-		finchAirlines.confermaPrenotazione(finchAirlines.ricercaCliente(email), gestisciPrenotazione.getListaVoli());
-		
-		System.out.println("Prenotazione effettuata con successo!");*/
-		//scan.close();*/
-		
-		
-		
-		/*pagamento di una prenotazione tramite paypal.
-		 *Si dovrebbe effettuare il testing anche del pagamento tramite carta di credito ma le funzioni sono identiche*/
-		/*Prenotazione prenotazione1 = finchAirlines.getListaPrenotazioni().get(0);
-		System.out.println("Pagamento tramite paypal della prenotazione num. " + prenotazione1.getNumeroPrenotazione());
-		finchAirlines.effettuaPagamentoPayPal(prenotazione1);
-		System.out.println("Pagamento di: " + prenotazione1.getTotale());
-		int punti = finchAirlines.selezionaSconto(prenotazione1);
-		System.out.println("Il cliente possiede i seguenti punti: " + punti);
-		int puntiSelezionati = 0;
-		
-		do {
-			System.out.println("Seleziona i punti da utilizare per lo sconto");
-			puntiSelezionati = scan.nextInt();
-			if ((puntiSelezionati > punti) || (puntiSelezionati<0))
-				System.out.println("Selezione non corretta!");
-		}
-		while((puntiSelezionati > punti) || (puntiSelezionati<0));
-		
-		double nuovoTotale = finchAirlines.selezionaPunti(puntiSelezionati, prenotazione1.getTotale());
-		System.out.println("Selezionati " + puntiSelezionati + "punti, nuovo totale: " + nuovoTotale);
-		
-		System.out.println("Inserire email per effettuare il pagamento tramite il conto PayPal:");
-		scan.nextLine();
-		String emailPayPal = scan.nextLine();
-		
-		if(finchAirlines.pagamentoPayPal(nuovoTotale, prenotazione1, emailPayPal, puntiSelezionati))
-			System.out.println("Pagamento effettuato con successo");
-		else
-			System.out.println("Pagamento non riuscito");*/
-		
-		//checkin di una prenotazione
-		//precondizione: Login già effettuato
-		System.out.println("Procedura di checkin avviata!");
-		ArrayList<Prenotazione> listaPrenotazioniCliente = finchAirlines.effettuaCheckin(listaClienti.get(0));
-		System.out.println("Prenotazioni del cliente: " + listaClienti.get(0).getNome()+ " "+ listaClienti.get(0).getCognome());
-		for(Prenotazione prenotazione: listaPrenotazioniCliente)
-			System.out.println("Numero prenotazione: "+ prenotazione.getNumeroPrenotazione());
-		System.out.println("Seleziona la prenotazione per cui vuoi effettuare il checkin:");
-		int numeroPrenotazione = scan.nextInt();
-		Prenotazione prenotazioneSelezionata = finchAirlines.selezionaPrenotazione(numeroPrenotazione, listaPrenotazioniCliente);
-		if(prenotazioneSelezionata.equals(null))
-			System.out.println("Prenotazione non trovata!");
-		int i=0;
-		for(VoloPrenotato voloPrenotato: prenotazioneSelezionata.getListaVoli()) {
-			i++;
-			System.out.println("[" + i +"] " + voloPrenotato.getVolo().getDescrizioneVolo().getCodice() + " con partenza in data "+ voloPrenotato.getVolo().getOraPartenza());
-		}
-		System.out.println("Seleziona il volo per cui vuoi effettuare il checkin:");
-		VoloPrenotato voloPrenotato = finchAirlines.selezionaVolo(scan.nextInt() -1, prenotazioneSelezionata);
-		
-		CartaDiImbarco cartaDiImbarco = finchAirlines.confermaInserimento(prenotazioneSelezionata, voloPrenotato);
-		if (cartaDiImbarco.equals(null))
-			System.out.println("Impossibile effettuare il checkin.");
-		System.out.println("Checkin effettuato.");
-		System.out.println("Il volo per cui è stato effettuato il checkin è " + voloPrenotato.getVolo().getDescrizioneVolo().getCodice()+ " con partenza da " + voloPrenotato.getVolo().getDescrizioneVolo().getAeroporti()[0].getCitta()+" in data " + voloPrenotato.getVolo().getOraPartenza());
-		
-		scan.close();
 	}
-
 }
+		
+		

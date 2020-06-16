@@ -9,10 +9,10 @@ public class Documento {
 	private LocalDateTime dataScadenza;
 	private String tipo;
 	
-	public Documento(String id, LocalDateTime localDateTime, LocalDateTime localDateTime2, String tipo) {
+	public Documento(String id, LocalDateTime dataRilascio, LocalDateTime dataScadenza, String tipo) {
 		this.id = id;
-		this.dataRilascio = localDateTime;
-		this.dataScadenza = localDateTime2;
+		this.dataRilascio = dataRilascio;
+		this.dataScadenza = dataScadenza;
 		this.tipo = tipo;
 	}
 
